@@ -152,28 +152,29 @@ else()
   CPMAddPackage(
     NAME ZLIB
     GITHUB_REPOSITORY madler/zlib
-    GIT_TAG v1.3)
+    GIT_TAG v1.3.1)
   target_include_directories(zlibstatic INTERFACE ${ZLIB_SOURCE_DIR} $<TARGET_PROPERTY:zlibstatic,BINARY_DIR>)
   list(APPEND mcfile_test_link_libraries zlibstatic)
 endif()
 
-CPMAddPackage("gh:ebiggers/libdeflate@1.20")
+CPMAddPackage("gh:ebiggers/libdeflate@1.25")
 list(APPEND mcfile_test_link_libraries libdeflate::libdeflate_static)
 
 CPMAddPackage(
   NAME lz4
   GITHUB_REPOSITORY lz4/lz4
-  GIT_TAG v1.9.4
+  GIT_TAG v1.10.0
   DOWNLOAD_ONLY YES)
 add_subdirectory(${lz4_SOURCE_DIR}/build/cmake ${lz4_SOURCE_DIR} EXCLUDE_FROM_ALL)
 list(APPEND mcfile_test_link_libraries lz4_static)
 
-CPMAddPackage("gh:doctest/doctest@2.4.11")
+CPMAddPackage("gh:doctest/doctest@2.4.12")
 
 include(cmake/icu-cpm.cmake)
 list(APPEND mcfile_test_link_libraries icu::uc)
 
 add_library(mcfile INTERFACE ${mcfile_files})
+target_compile_definitions(mcfile INTERFACE -DXXH_NAMESPACE=LZ4_)
 target_include_directories(mcfile INTERFACE include)
 target_link_libraries(mcfile INTERFACE ${mcfile_test_link_libraries})
 
