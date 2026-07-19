@@ -666,7 +666,7 @@ public:
             }
         }
 #define ns u8"minecraft:"
-#define egg u8"_spawn_egg";
+#define egg u8"_spawn_egg"
         switch (id) {
         case 256: return ns u8"iron_shovel";
         case 257: return ns u8"iron_pickaxe";
@@ -2996,7 +2996,7 @@ public:
     static void Stairs(uint8_t data, std::map<std::u8string, std::u8string> &props) {
         static std::u8string const facing[4] = {u8"east", u8"west", u8"south", u8"north"};
         props[u8"facing"] = facing[std::clamp(data & 0x3, 0, 3)];
-        static std::u8string const half[2] = {u8"bottm", u8"top"};
+        static std::u8string const half[2] = {u8"bottom", u8"top"};
         props[u8"half"] = half[std::clamp(data & 0x4, 0, 1)];
     }
 
@@ -3139,7 +3139,7 @@ public:
             break;
         }
         props[u8"half"] = (data & 0x8) == 0x8 ? u8"top" : u8"bottom";
-        props[u8"open"] = (data & 0x4) == 0x4 ? u8"true" : u8"fasle";
+        props[u8"open"] = (data & 0x4) == 0x4 ? u8"true" : u8"false";
     }
 
     static void Button(uint8_t data, std::map<std::u8string, std::u8string> &props) {
