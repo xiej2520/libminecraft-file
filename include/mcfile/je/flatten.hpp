@@ -119,6 +119,7 @@ public:
         if (i == u8"stone_slab") {
             switch (DrainDamage(damage)) {
             case 1: return ns u8"sandstone_slab";
+            case 2: return ns u8"petrified_oak_slab";
             case 3: return ns u8"cobblestone_slab";
             case 4: return ns u8"brick_slab";
             case 5: return ns u8"stone_brick_slab";
@@ -1310,13 +1311,22 @@ public:
                 return blocks::minecraft::iron_block;
             },
             // 43
-            [](uint8_t data, map<u8string, u8string> &props) {
+            [](uint8_t data, map<u8string, u8string> &props) -> blocks::BlockId {
                 AssertDataLayout(data, 0b1111);
+                if ((data & 0x8) == 0x8) {
+                    switch (data & 0x7) {
+                        case 0: return blocks::minecraft::smooth_stone;
+                        case 1: return blocks::minecraft::smooth_sandstone;
+                        case 7: return blocks::minecraft::smooth_quartz;
+                        default:
+                            break;
+                    }
+                }
                 props[u8"type"] = u8"double";
                 static blocks::BlockId const sIds[8] = {
                     blocks::minecraft::smooth_stone_slab,
                     blocks::minecraft::sandstone_slab,
-                    blocks::minecraft::oak_slab,
+                    blocks::minecraft::petrified_oak_slab,
                     blocks::minecraft::cobblestone_slab,
                     blocks::minecraft::brick_slab,
                     blocks::minecraft::stone_brick_slab,
@@ -1332,7 +1342,7 @@ public:
                 static blocks::BlockId const sIds[8] = {
                     blocks::minecraft::smooth_stone_slab,
                     blocks::minecraft::sandstone_slab,
-                    blocks::minecraft::oak_slab,
+                    blocks::minecraft::petrified_oak_slab,
                     blocks::minecraft::cobblestone_slab,
                     blocks::minecraft::brick_slab,
                     blocks::minecraft::stone_brick_slab,
@@ -2492,12 +2502,12 @@ public:
             // 181
             [](uint8_t data, map<u8string, u8string> &props) {
                 AssertDataLayout(data, 0b1000);
-                props[u8"type"] = u8"double";
                 switch (data) {
                 case 8:
-                    return blocks::minecraft::smooth_red_sandstone_slab;
+                    return blocks::minecraft::smooth_red_sandstone;
                 case 0:
                 default:
+                    props[u8"type"] = u8"double";
                     return blocks::minecraft::red_sandstone_slab;
                 }
             },
