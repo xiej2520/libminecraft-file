@@ -133,11 +133,20 @@ public:
         if (i == u8"brick_block") {
             return ns u8"bricks";
         }
+        if (i == u8"mob_spawner") {
+            return ns u8"spawner";
+        }
         if (i == u8"stone_stairs") {
             return ns u8"cobblestone_stairs";
         }
+        if (i == u8"snow_layer") {
+            return ns u8"snow";
+        }
         if (i == u8"snow") {
             return ns u8"snow_block";
+        }
+        if (i == u8"fence") {
+            return ns u8"oak_fence";
         }
         if (i == u8"pumpkin") {
             return ns u8"carved_pumpkin";
@@ -180,6 +189,9 @@ public:
         if (i == u8"melon_block") {
             return ns u8"melon";
         }
+        if (i == u8"waterlily") {
+            return ns u8"lily_pad";
+        }
         if (i == u8"nether_brick") {
             return ns u8"nether_bricks";
         }
@@ -194,6 +206,9 @@ public:
             default:
                 return ns u8"oak_slab";
             }
+        }
+        if (i == u8"quartz_ore") {
+            return ns u8"nether_quartz_ore";
         }
         if (i == u8"quartz_block") {
             switch (DrainDamage(damage)) {
@@ -257,6 +272,9 @@ public:
         }
         if (i == u8"stone_slab2") {
             return ns u8"red_sandstone_slab";
+        }
+        if (i == u8"end_bricks") {
+            return ns u8"end_stone_bricks";
         }
         if (i == u8"magma") {
             return ns u8"magma_block";
@@ -576,6 +594,9 @@ public:
                 return ns u8"ink_sac";
             }
         }
+        if (i == u8"fireworks") {
+            return ns u8"firework_rocket";
+        }
         if (i == u8"firework_charge") {
             return ns u8"firework_star";
         }
@@ -648,6 +669,8 @@ public:
         }
         if (i == u8"melon") {
             return ns u8"melon_slice";
+        } else if (i == u8"speckled_melon") {
+            return ns u8"glistering_melon_slice";
         }
 #undef ns
 
@@ -791,7 +814,7 @@ public:
             case 1: return ns u8"cooked_salmon";
             case 0:
             default:
-                return ns u8"cooked_fish";
+                return ns u8"cooked_cod";
             }
         case 351:
             switch (DrainDamage(damage)) {
