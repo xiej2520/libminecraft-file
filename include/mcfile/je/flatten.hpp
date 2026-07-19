@@ -1117,13 +1117,24 @@ public:
             [](uint8_t data, map<u8string, u8string> &props) {
                 AssertDataLayout(data, 0b1111);
                 Log(data, props);
-                static blocks::BlockId const sIds[4] = {
-                    blocks::minecraft::oak_log,
-                    blocks::minecraft::spruce_log,
-                    blocks::minecraft::birch_log,
-                    blocks::minecraft::jungle_log,
-                };
-                return Select<4>(data & 0x3, sIds, blocks::minecraft::oak_log);
+
+                if (((data >> 2) & 0x3) == 0x3) {
+                    static blocks::BlockId const sIds[4] = {
+                        blocks::minecraft::oak_wood,
+                        blocks::minecraft::spruce_wood,
+                        blocks::minecraft::birch_wood,
+                        blocks::minecraft::jungle_wood,
+                    };
+                    return Select<4>(data & 0x3, sIds, blocks::minecraft::oak_wood);
+                } else {
+                    static blocks::BlockId const sIds[4] = {
+                        blocks::minecraft::oak_log,
+                        blocks::minecraft::spruce_log,
+                        blocks::minecraft::birch_log,
+                        blocks::minecraft::jungle_log,
+                    };
+                    return Select<4>(data & 0x3, sIds, blocks::minecraft::oak_log);
+                }
             },
             // 18
             [](uint8_t data, map<u8string, u8string> &props) {
@@ -2342,6 +2353,16 @@ public:
             [](uint8_t data, map<u8string, u8string> &props) {
                 AssertDataLayout(data, 0b1111);
                 Log(data, props);
+
+                if (((data >> 2) & 0x3) == 0x3) {
+                    switch (data & 0x3) {
+                    case 1: return blocks::minecraft::dark_oak_wood;
+                    case 0:
+                    default:
+                        return blocks::minecraft::acacia_wood;
+                    }
+                }
+
                 switch (data & 0x3) {
                 case 1: return blocks::minecraft::dark_oak_log;
                 case 0:
@@ -3041,7 +3062,12 @@ public:
     }
 
     static void Log(uint8_t data, std::map<std::u8string, std::u8string> &props) {
-        props[u8"axis"] = Axis((data >> 2) & 0x3);
+        if (((data >> 2) & 0x3) == 0x3) {
+            // log axis="none" -> wood axis="y"
+            props[u8"axis"] = u8"y";
+        } else {
+            props[u8"axis"] = Axis((data >> 2) & 0x3);
+        }
     }
 
     static void Leaves(uint8_t data, std::map<std::u8string, std::u8string> &props) {
