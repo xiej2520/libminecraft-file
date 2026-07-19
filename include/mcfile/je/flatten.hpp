@@ -336,6 +336,8 @@ public:
         if (i == u8"tallgrass") {
             switch (DrainDamage(damage)) {
             case 2: return ns u8"fern";
+            // shrub -> dead bush
+            case 0: return ns u8"dead_bush";
             case 1:
             default:
                 return ns u8"grass";
@@ -1231,8 +1233,9 @@ public:
                 AssertDataLayout(data, 0b11);
                 switch (data) {
                 case 2: return blocks::minecraft::fern;
+                // shrub. Legacy console edition only
+                case 0: return blocks::minecraft::dead_bush;
                 case 1:
-                case 0: // shrub. Legacy console edition only
                 default:
                     return blocks::minecraft::short_grass;
                 }
